@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form class="" action="" method="post" onsubmit="return checked()">
+      <table align="center" bordercolor="#CCDDFF" border="1" cellspacing="0">
+        <tr>
+          <th colspan="2" bgcolor="#CCDDFF">회원 기본 정보</th>
+        </tr>
+        <tr>
+          <th bgcolor="#EEEEEE">선택:</th>
+          <td>
+            <label for="">
+              일반사용자<input
+                type="radio"
+                name="my_character"
+                value="1"
+                checked
+                required
+              />
+            </label>
+            <label for="">
+              사장님<input
+                type="radio"
+                name="my_character"
+                value="2"
+                required
+              />
+            </label>
+            <!--patter으로 아이디 유효성 검사 minlength와 maxlength로 글자 수 제한-->
+          </td>
+        </tr>
+        <tr>
+          <th bgcolor="#EEEEEE">아이디:</th>
+          <td>
+            <input
+              type="text"
+              name="my_id"
+              value=""
+              minlength="4"
+              maxlength="12"
+              size="15"
+              pattern="[a-zA-Z0-9]{4,12}"
+              title="4~12자의 영문 대소문자와 숫자로만 입력."
+              required
+            />
+            <!--patter으로 아이디 유효성 검사 minlength와 maxlength로 글자 수 제한-->
+          </td>
+        </tr>
+        <tr>
+          <th bgcolor="#EEEEEE">비밀변호:</th>
+          <td>
+            <input
+              type="password"
+              id="pw"
+              name="my_password"
+              value=""
+              minlength="4"
+              maxlength="12"
+              size="15"
+              pattern="[a-zA-Z0-9]{4,12}"
+              title="4~12자의 영문 대소문자와 숫자로만 입력."
+              required
+            />
+            <!--patter으로 비밀번호 유효성 검사 minlength와 maxlength로 글자 수 제한-->
+          </td>
+        </tr>
+        <tr>
+          <th bgcolor="#EEEEEE">비밀번호확인:</th>
+          <td>
+            <input
+              type="password"
+              id="pw_cf"
+              name="my_password_confirm"
+              onkeyup="check_pw()"
+              value=""
+              maxlength="12"
+              size="15"
+              required
+            />
+            <span id="pw_check_msg"></span>
+          </td>
+        </tr>
+        <tr>
+          <th bgcolor="#EEEEEE">메일주소:</th>
+          <td>
+            <input
+              type="email"
+              name="my_mail"
+              value=""
+              size="20"
+              pattern="[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}"
+              required
+            />
+            예) id@domain.com
+            <!--patter으로 메일 유효성 검사 -->
+          </td>
+        </tr>
+        <tr>
+          <th bgcolor="#EEEEEE">이름:</th>
+          <td>
+            <input type="text" name="my_name" value="" size="20" required />
+          </td>
+        </tr>
+      </table>
+      <div class="" align="center">
+        <br />
+        <input type="submit" value="회원 가입" />
+        <input type="reset" value="다시 입력" />
+      </div>
+    </form>
+
+    <script>
+      function check_pw() {
+        //비밀번호 확인
+        var p = document.getElementById("pw").value;
+        var p_cf = document.getElementById("pw_cf").value;
+
+        if (p != p_cf) {
+          document.getElementById("pw_check_msg").innerHTML =
+            "비밀번호가 다릅니다. 다시 확인해 주세요.";
+        } else {
+          document.getElementById("pw_check_msg").innerHTML = "";
+        }
+        if (p_cf == "") {
+          document.getElementById("pw_check_msg").innerHTML = "";
+        }
+      }
+
+      function my_address_check() {
+        //주민번호 검사
+        var addr1 = document.getElementById("my_address1").value;
+        var addr2 = document.getElementById("my_address2").value;
+        var num = 0;
+        if (addr1.length == 6 && addr2.length == 7) {
+          //주민번호가 다 입력되면 공식적용
+          for (var i = 0; i < addr1.length; i++) {
+            num += parseInt(addr1[i]) * (i + 2);
+          }
+          for (var i = 0; i < addr2.length - 1; i++) {
+            num += parseInt(addr2[i]) * (((i + 6) % 8) + 2);
+          }
+
+          num = num % 11;
+          if (num == 1 || num == 0) {
+            num = 11;
+          }
+          if (parseInt(addr2[6]) == 11 - num) {
+            if (addr2[0] == "1" || addr2[0] == "2") {
+              document.getElementById("my_year").value =
+                "19" + addr1.substring(0, 2); //주민번호가 맞으면 생일에 적용
+            } else if (addr2[0] == "3" || addr2[0] == "4") {
+              document.getElementById("my_year").value =
+                "20" + addr1.substring(0, 2); //주민번호가 맞으면 생일에 적용
+            }
+            document.getElementById("my_month").value = addr1.substring(2, 4);
+            document.getElementById("my_day").value = addr1.substring(4, 6);
+          } else {
+            document.getElementById("my_address2").value = ""; //틀리면 alert
+            alert("주민번호가 잘못되었습니다.");
+            document.getElementById("my_year").value = "";
+            document.getElementById("my_month").value = "";
+            document.getElementById("my_day").value = "";
+          }
+        } else {
+          document.getElementById("my_year").value = ""; //주민번호 고칠시 생일도 초기화
+          document.getElementById("my_month").value = "";
+          document.getElementById("my_day").value = "";
+        }
+      }
+
+      function checked() {
+        //form 유효성 검사
+        var p = document.getElementById("pw");
+        var p_cf = document.getElementById("pw_cf");
+
+        var count = 0;
+        var check = document.getElementsByName("my_hobby");
+        for (var i = 0; i < check.length; i++) {
+          // 관심분야 검사
+          if (check[i].checked) {
+            count = 1;
+            break;
+          }
+        }
+        if (p.value != p_cf.value) {
+          //비밀번호 확인
+          alert("비밀번호가 일치하지 않습니다. 확인해 주세요");
+          p_cf.focus();
+          return false;
+        }
+        if (document.getElementById("postcode").value == "") {
+          //주소 확인
+          alert("주소를 입력해주세요");
+          document.getElementById("postcode_button").focus();
+          return false;
+        }
+        if (count == 0) {
+          //관심분야 확인
+          alert("관심분야를 체크해 주세요");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    </script>
+  </body>
+</html>

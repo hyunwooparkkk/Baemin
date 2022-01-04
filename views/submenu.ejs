@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script> 
+  $(document).ready(function () {
+    let length= document.getElementById("length").innerHTML;
+    let deprice= document.getElementById("deprice").innerHTML;
+    let resname= document.getElementById("resname").innerHTML;
+alert(resname);
+    let sum=Number(deprice);
+    for (let i=0; i<length; i++){
+    $("#chk"+i).click(function () {
+        let price= document.getElementById("price"+i).innerHTML;
+       let get=1;
+
+        if($('#chk'+i).is(':checked')==false){
+            sum-=Number(price);
+        }
+        else{
+            sum+=Number(price);
+        }
+      
+          $.ajax({
+            url: "/mainmenu/submenu",
+            dataType: "json",
+            type: "GET",
+            data: { data:get,sum:sum },
+            success: function (result) {
+              if (result) {
+                  
+                
+                  $("#output").html(result.result);
+               
+                
+              }
+            },})
+    })}
+    let submenu=[];
+    $("#btn").click(function () {
+        let get=2;
+        for (let i=0; i<length; i++){
+            if($('#chk'+i).is(':checked')==true){
+            
+            submenu.push(document.getElementById("submenu"+i).innerHTML);
+        }
+        }
+        let menu=document.getElementById("gomenu").innerHTML;
+        $.ajax({
+            url: "/mainmenu/submenu",
+            dataType: "json",
+            type: "GET",
+            data: { data:get,sum:sum ,submenu:submenu,menu:menu,resname:resname},
+            success: function (result) {
+              if (result) {
+                  alert(result.result);
+               location.href="/nav/cart/"+resname
+              }
+            },})
+    
+
+    })
+
+  })
+        </script>
+</head>
+<body>
+    <%for(let i=0; i<data.length; i++){%>
+        <strong id="resname"> <%=data[i].restaurant_name%></strong>
+    <strong id="gomenu"> <%=data[i].menu%></strong>
+    <hr>
+    <strong id="deprice"><%=data[i].price%></strong> 
+    <%}%>
+    <hr>
+<p></p>
+<div id="length" hidden><%=data2.length%></div>
+<%for(let i=0; i<data2.length; i++){%>
+    <strong id="submenu<%=i%>"><%=data2[i].submenu%></strong>  <strong id="price<%=i%>"><%=data2[i].price%></strong> &nbsp; <input type="checkbox" id="chk<%=i%>" value="<%=data2[i].submenu%>">
+    <hr>
+    <%}%>
+    <p></p>
+    총금액<div id="output"><%=data[0].price%></div>
+    <button id="btn">장바구니에 담기</button>
+</body>
+</html>

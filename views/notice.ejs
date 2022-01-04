@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      $(document).ready(() => {
+        const socket = io();
+        socket.on("message", (data) => {
+          let output = "";
+
+          output += "         <h3>" + data.name + "</h3>";
+          output += "         <p>" + data.message + "</p>";
+
+          $(output).prependTo("#content");
+        });
+        $("button").click(() => {
+          socket.emit("message", {
+            id: "1",
+            name: $("#name").val(),
+            message: $("#message").val(),
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>소켓 채팅</h1>
+    <p>node.js와 함꼐합니다</p>
+    <input id="name" />
+    <input id="message" />
+    <button>클릭</button>
+    <ul id="content"></ul>
+    notice page
+  </body>
+</html>

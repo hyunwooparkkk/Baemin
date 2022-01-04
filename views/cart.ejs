@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script>
+    $(document).ready(function () {
+      let length= document.getElementById("length").innerHTML;
+      let total=0;
+      for(let k=0;k<length;k++){   
+      total+=Number(document.getElementById("price"+k).innerHTML)
+      }
+      $("#total").html(total);
+     
+      for(let i=0; i<length;i++){
+      
+      $("#x"+i).click(function () {
+          
+        let num= document.getElementById("num"+i).innerHTML;
+        total-=Number(document.getElementById("price"+i).innerHTML);
+        $("#total").html(total);
+          $("#menu"+i).empty();
+          $("#submenu"+i).empty();
+          $("#price"+i).empty();
+          $("#x"+i).remove();
+          $("#hr"+i).remove();
+          let get = 1;
+          $.ajax({
+            url: "/nav/cart",
+            dataType: "json",
+            type: "GET",
+            data: { data: get, num: num  },
+            success: function (result) {
+              if (result) {
+      alert(result.result);
+              }
+            },
+          });
+        });}
+        let arr=[];
+        $("#allx").click(function(){
+          
+          let length= document.getElementById("length").innerHTML;
+          
+        if(confirm("모든 항목을 다 삭제 하시겠습니까?")==true){
+          for(let j=0;j<length;j++){
+            arr.push(document.getElementById("num"+j).innerHTML);
+            
+            $("#menu"+j).empty();
+          $("#submenu"+j).empty();
+          $("#price"+j).empty();
+          $("#x"+j).remove();
+          $("#hr"+j).remove();
+          $("#allx").html("텅 비었습니다");
+          $("#total").html("0원");
+        }
+          let get = 2;
+          $.ajax({
+            url: "/nav/cart",
+            dataType: "json",
+            type: "GET",
+            data: { data: get, arr:arr },
+            success: function (result) {
+              if (result) {
+      alert(result.result);
+              }
+            },
+          });
+        }
+        })
+
+    })
+  </script>
+  </head>
+  <body>
+    <div id="length" hidden><%=data.length%></div>
+    <h1>장바구니 페이지</h1> 
+    <button id="allx">전체삭제</button>
+    <%for(let i=0;i<data.length;i++){%>
+      <div id="num<%=i%>" hidden><%=data[i].num%></div>
+      <strong id="menu<%=i%>"><%=data[i].menu%></strong> 
+      <strong id="submenu<%=i%>"><%=data[i].submenu%></strong>
+      <strong id="price<%=i%>"><%=data[i].price%></strong>
+      <button id="x<%=i%>">x</button>
+      <hr id="hr<%=i%>"> 
+      <%}%>
+      <div id="total"></div>
+      <div><a href="/mainmenu/pay">주문하기</a></div>
+  </body>
+</html>

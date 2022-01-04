@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script>
+      $(document).ready(function () {
+        let id = document.getElementById("idyo").innerHTML;
+        $("#menu").click(function () {
+          $("#rev").empty();
+          $("#infor").empty();
+
+          var get = 1;
+          $.ajax({
+            url: "/mainmenu/resmenu",
+            dataType: "json",
+            type: "GET",
+            data: { data: get, name: id },
+            success: function (result) {
+              if (result) {
+                for (let i = 0; i < result.result.length; i++) {
+                  $("#output" + i).html(result.result[i].menu + "<hr/>");
+                  $("#output" + i)
+                    .contents()
+                    .wrap(
+                      '<a href="/mainmenu/submenu/' +
+                        result.result[i].num +
+                        '" ></a>'
+                    );
+                }
+              }
+            },
+          });
+        });
+
+        $("#information").click(function () {
+          for (let i = 0; i < 20; i++) {
+            $("#output" + i).empty();
+          }
+          $("#rev").empty();
+
+          var get = 2;
+
+          $.ajax({
+            url: "/mainmenu/resmenu",
+            dataType: "json",
+            type: "GET",
+            data: { data: get, name: id },
+            success: function (result) {
+              if (result) {
+                $("#infor").html(result.result[0].introduce);
+              }
+            },
+          });
+        });
+
+        $("#review").click(function () {
+          for (let i = 0; i < 20; i++) {
+            $("#output" + i).empty();
+          }
+          $("#infor").empty();
+          var get = 3;
+
+          $.ajax({
+            url: "/mainmenu/resmenu",
+            dataType: "json",
+            type: "GET",
+            data: { data: get, name: id },
+            success: function (result) {
+              if (result) {
+                for (let i = 0; i < result.result.length; i++) {
+                  $("#rev").html(
+                    "평점:" +
+                      result.result[i].star +
+                      " 아이디:" +
+                      result.result[i].my_id +
+                      " 리뷰:" +
+                      result.result[i].review +
+                      "<hr>"
+                  );
+                }
+              }
+            },
+          });
+        });
+
+        $("#love").click(function () {
+          let totalnum = Number(document.getElementById("totallove").innerHTML);
+          let llove = document.getElementById("love").innerHTML;
+          let id = document.getElementById("idyo").innerHTML;
+          if ("찜♡" == llove) {
+            var get = 4;
+            $("#love").html("찜♥");
+            $.ajax({
+              url: "/mainmenu/resmenu",
+              dataType: "json",
+              type: "GET",
+              data: { data: get, name: id },
+              success: function (result) {
+                if (result) {
+                  $("#totallove").html(totalnum + result.result);
+                }
+              },
+            });
+          } else {
+            var get = 5;
+            $("#love").html("찜♡");
+            $.ajax({
+              url: "/mainmenu/resmenu",
+              dataType: "json",
+              type: "GET",
+              data: { data: get, name: id },
+              success: function (result) {
+                if (result) {
+                  $("#totallove").html(totalnum - result.result);
+                }
+              },
+            });
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="idyo" hidden><%=resname%></div>
+    <div><%=resname%></div>
+    <div>별점:<%=star%></div>
+    <div>리뷰수:<%=data.length%></div>
+    전화 | <button id="love"><%=firstlove%></button>
+    <strong id="totallove"><%=love.length%></strong> | 공유
+    <hr />
+    <div>최소주문금액:</div>
+    <div>결제방법: 바로결제</div>
+    <div>배달시간:</div>
+    <hr />
+    <p></p>
+    <span><button id="menu">메뉴</button></span>|
+    <span><button id="information">정보</button></span>|
+    <span><button id="review">리뷰</button></span>
+    <hr />
+    <%for(let j=0;j<2;j++) {%>
+    <div id="output<%=j%>"></div>
+    <%}%>
+
+    <div id="infor"></div>
+    <div id="rev"></div>
+
+    <script></script>
+  </body>
+</html>

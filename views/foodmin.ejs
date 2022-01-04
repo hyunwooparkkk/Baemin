@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  </head>
+  <body>
+    <form action="/nav/foodmin" method="POST">
+      <input type="text" value="<%=menu%>" name="resname" hidden />
+      최소주문가격<input type="text" name="minprice" />원
+      <p></p>
+      최대시간<input type="text" name="time" />분
+      <input type="submit" value="등록하기" />
+    </form>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  </head>
+  <body>
+    <%=menu%>의 서브메뉴 추가
+
+    <form action="/nav/subfoodres" method="POST">
+      <input type="text" name="menu" value="<%=menu%>" hidden />
+      메뉴:<input type="text" name="submenu" /> 가격:<input
+        type="text"
+        name="price"
+      />
+      <hr />
+      <div id="boxWrap"></div>
+
+      <input type="submit" value="등록하기" />
+    </form>
+    <button id="add">서브 메뉴추가</button>
+    <script>
+      $("#add").click(function () {
+        $("#boxWrap").append(
+          "메뉴:<input type='text' name='submenu'class='menu'>"
+        );
+        $("#boxWrap").append(
+          " 가격:<input tpye='text' name='price'class='price'><hr>"
+        );
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+    ></script>
+  
+    <script
+      type="text/javascript"
+      src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"
+    ></script>
+<script>
+ $(document).ready(function () {
+  alert("여기지");
+  let total=0;
+  
+        $("#btn").click(function(){
+          
+        let arrmenu=[];
+         let length=document.getElementById('length').innerHTML;
+        for(let i=0;i<length;i++){
+          total+=Number(document.getElementById('price'+i).innerHTML);
+                 arrmenu.push(document.getElementById('menu'+i).innerHTML);
+        }
+        let menus=String(arrmenu)
+      var IMP = window.IMP; // 생략가능
+      IMP.init("imp54170793"); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+
+      IMP.request_pay(
+        {
+          pg: "kakao", // version 1.1.0부터 지원.
+          pay_method: "card",
+          merchant_uid: "merchant_" + new Date().getTime(),
+          name: menus,
+          amount: total,
+          buyer_email: "iamport@siot.do",
+          buyer_name: "구매자이름",
+          buyer_tel: "010-1234-5678",
+          buyer_addr: "서울특별시 강남구 삼성동",
+          buyer_postcode: "123-456",
+          m_redirect_url: "https://www.yourdomain.com/payments/complete",
+        },
+        function (rsp) {
+          if (rsp.success) {
+            var msg = "결제가 완료되었습니다."
+            msg += "결제 금액 : " + total;
+            
+          } else {
+            var msg = "결제에 실패하였습니다.";
+            msg += "에러내용 : " + rsp.error_msg;
+          }
+          alert(msg);
+         location.href="/nav/paylist/1";
+        }
+      );
+
+        })
+
+  })
+
+</script>
+
+
+  </head>
+  <body>
+    <div> 결제 목록</div>
+    <div id="length" hidden><%=data.length%> </div>
+    <%for(let i=0; i<data.length; i++) {%>
+        
+        <div id="resname<%=i%>"><%=data[i].restaurant_name%> </div>
+        <div id="menu<%=i%>"><%=data[i].menu%></div>
+        <div id="price<%=i%>"><%=data[i].price%></div>
+        <div id="id<%=i%>"><%=data[i].my_id%></div>
+        <%}%>
+        <button id="btn">결제하기</button>
+
+  </body>
+</html>

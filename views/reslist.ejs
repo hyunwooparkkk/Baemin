@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script>
+    $(document).ready(function () {
+      
+      let namedata=[]; 
+      let addrdata=[]; 
+      let totalpage;
+      let left;
+      let length=document.getElementById("length").innerHTML;
+      for(let i=0; i<length;i++){
+        namedata.push(document.getElementById("data"+i).innerHTML);
+        addrdata.push(document.getElementById("addr"+i).innerHTML);
+      }
+      if(length/10>=1){
+      
+        totalpage=Math.ceil(length/10)
+           left=length%10
+           for(let k=1;k<totalpage+1;k++){
+            $("#page").append('<strong id="btn'+k+'">['+k+']</strong>');
+            $("#btn"+k).click(function(){
+               if(k==totalpage){
+                $("#pagedata").empty();
+                for(let t=k*10-10;t<((totalpage-1)*10)+left;t++){
+                  
+                  $("#pagedata").append(namedata[t]+addrdata[t]+"<hr>");
+          $("#pagedata")
+                    .contents()
+                    .wrap(
+                      '<a href="/mainmenu/resmenu/'+namedata[t]+'"></a>'
+                    );
+               
+                }
+               }
+               else{
+                $("#pagedata").empty();
+             for(let t=k*10-10;t<k*10;t++){
+              
+              $("#pagedata").append(namedata[t]+addrdata[t]+"<hr>");
+          $("#pagedata")
+                    .contents()
+                    .wrap(
+                      '<a href="/mainmenu/resmenu/'+namedata[t]+'"></a>'
+                    );
+               
+             }
+            }
+           })
+
+          }
+         
+
+
+
+      }else{
+        totalpage=1;
+         left=length%10
+         for(let j=0;j<left;j++){
+          $("#pagedata").append(namedata[j]+addrdata[j]+"<hr>");
+          $("#pagedata")
+                    .contents()
+                    .wrap(
+                      '<a href="/mainmenu/resmenu/'+namedata[j]+'"></a>'
+                    );
+         
+         }
+      $("#page").append("[1]");
+      $("#page")
+                    .contents()
+                    .wrap(
+                      '<strong id="btn'+1+'"></strong>'
+                    );
+    }
+    
+    $("#btn1").trigger("click");
+
+
+     
+    })
+  </script>
+  <body>
+    <h1>food page</h1>
+    <div id="length" hidden><%=data.length%></div>
+    <%for(let i=0; i<data.length; i++) {%>
+      <a href="/mainmenu/resmenu/<%=data[i].restaurant_name%>">
+       
+        <strong id="data<%=i%>" hidden><%=data[i].restaurant_name%></strong>
+        <strong id="addr<%=i%>" hidden><%=data[i].address%></strong> 
+      </a>
+      
+    <%}%>
+      <strong id="pagedata"></strong> <strong id="addrdata"></strong>
+      <strong id="page"></strong>
+   
+
+  </body>
+</html>

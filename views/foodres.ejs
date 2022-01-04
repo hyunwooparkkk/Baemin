@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  </head>
+  <body>
+    <form action="/nav/foodres" method="POST" enctype="multipart/form-data">
+      <input type="text" hidden value="<%=data%>" name="restaurant_name" />
+      <fieldset>
+        <legend><h1>음식점 소개</h1></legend>
+        <textarea name="introduce" id="" cols="150" rows="10"></textarea>
+      </fieldset>
+
+      <h2>음식 메뉴 등록</h2>
+      <div id="boxWrap">
+        이름<input type="text" name="menu" class="menu" />가격<input
+          type="text"
+          name="price"
+          class="price"
+        />간단한 메뉴설명<input
+          type="text"
+          name="comment"
+          class="comment"
+        />사진<input type="file" name="img" class="img" />
+        <hr />
+      </div>
+
+      <input type="submit" value="등록하기" />
+    </form>
+
+    <p></p>
+    <div class="btnWrap">
+      <button id="button">메뉴 추가!</button>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("button").click(function () {
+          $("#boxWrap").append(
+            "이름<input type='text' name='menu'class='menu'>"
+          );
+          $("#boxWrap").append(
+            "가격<input tpye='text' name='price'class='price'>"
+          );
+          $("#boxWrap").append(
+            "간단한 메뉴설명<input tpye='text' name='comment'class='comment'>"
+          );
+          $("#boxWrap").append(
+            "사진<input type='file' name='img' class='img'><hr>"
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

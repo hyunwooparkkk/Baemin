@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+  <div id="length" hidden><%=data.length%></div>
+  <form action="/nav/foodupdate" method="POST" enctype="multipart/form-data">
+    <div>음식점 소개</div> 
+    <textarea name="introduce" cols="150" rows="10" readonly id="introduce"><%=data[0].introduce%></textarea>
+    <strong id="upd">수정</strong> <p></p>
+    <h3>이미지를 클릭하면 서브메뉴 추가페이지로 이동해요!</h3>
+    <%for(let i=0; i<data.length; i++) {%> 
+      
+      <a href="/nav/subfoodres/<%=data[i].menu%>"><img src="../../image/<%=data[i].imgfile%>" id="img<%=i%>" width="40px" height="40px"></a> 메뉴:<input type="text" id="menu<%=i%>" value="<%=data[i].menu%>" name="menu" readonly> 가격:<input type="text" value="<%=data[i].price%>" name="price" id="price<%=i%>" readonly> 음식설명:<input type="text" value="<%=data[i].comment%>" name="comment" id="comment<%=i%>" readonly>
+      <strong id='alter<%=i%>'>수정</strong>|
+      <strong id="x<%=i%>">삭제</strong>
+      <input type="text" value="<%=data[i].num%>" name="num" id="num<%=i%>" hidden>
+      <input type="text" value="<%=data[0].restaurant_name%>" name="resname" id="resname" hidden>
+      <hr>
+      <%}%>
+      <div>
+        <div id="boxWrap"></div>
+     <input type="submit" value="등록하기" id="submit" hidden>
+    </div>
+    </form>
+    <p></p>
+    <button id="add">메뉴추가</button>
+
+      <script>
+            $(document).ready(function(){
+              let length=document.getElementById("length").innerHTML;
+              for(let i=0;i<length;i++){
+              $("#alter"+i).click(function(){
+                
+          $("#menu"+i).removeAttr("readonly");
+          $("#price"+i).removeAttr("readonly");
+          $("#comment"+i).removeAttr("readonly");
+      
+          $("#submit").removeAttr("hidden");
+       
+})}
+              
+
+$("#add").click(function () {
+
+          $("#boxWrap").append(
+            "메뉴:<input type='text' name='menu'class='menu'>"
+          );
+          $("#boxWrap").append(
+            " 가격:<input tpye='text' name='price'class='price'>"
+          );
+          $("#boxWrap").append(
+            " 음식설명:<input tpye='text' name='comment'class='comment'>"
+          );
+          $("#boxWrap").append(
+            " 음식사진<input type='file' name='img' class='img'><hr>"
+          );
+    
+        });
+
+        for(let j=0;j<length;j++){
+        $("#x"+j).click(function () {
+          let num=document.getElementById("num"+j).value;
+          let resname=document.getElementById("resname").value;
+          location.href="/nav/fooddelete/"+num+"/"+resname;
+          $("#menu"+j).remove();
+          $("#price"+j).remove();
+          $("#comment"+j).remove();
+          $("#img"+j).remove();
+          $("#num"+j).remove();
+          $("#submit").removeAttr("hidden");
+       
+        })
+      }
+
+      $("#upd").click(function () {
+        $("#introduce").removeAttr("readonly");
+        $("#submit").removeAttr("hidden");
+      })
+
+
+            })
+      </script>
+</body>
+</html>

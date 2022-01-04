@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  </head>
+  <body>
+    <div><%=data%></div>
+    <p></p>
+    review page 별점주기 <strong id="star1">☆</strong
+    ><strong id="star2">☆</strong><strong id="star3">☆</strong
+    ><strong id="star4">☆</strong><strong id="star5">☆</strong>
+    <hr />
+    <form action="" method="post" enctype="multipart/form-data">
+      <input type="text" id="star" name="star" hidden />
+      <input type="text" id="resname" name="resname" value="<%=data%>" hidden>
+      리뷰작성<textarea
+        name="review"
+        id="review"
+        cols="150"
+        rows="7"
+      ></textarea>
+      <hr />
+      사진업로드<input type="file" name="img" />
+      <hr />
+
+      <input type="submit" value="리뷰 등록" id="submit" />
+    </form>
+    <script>
+      $(document).ready(function () {
+        $("#star1").click(function () {
+          $("#star1").text("★");
+          $("#star2").text("☆");
+          $("#star3").text("☆");
+          $("#star4").text("☆");
+          $("#star5").text("☆");
+        });
+
+        $("#star2").click(function () {
+          $("#star1").text("★");
+          $("#star2").text("★");
+          $("#star3").text("☆");
+          $("#star4").text("☆");
+          $("#star5").text("☆");
+        });
+        $("#star3").click(function () {
+          $("#star1").text("★");
+          $("#star2").text("★");
+          $("#star3").text("★");
+          $("#star4").text("☆");
+          $("#star5").text("☆");
+        });
+        $("#star4").click(function () {
+          $("#star1").text("★");
+          $("#star2").text("★");
+          $("#star3").text("★");
+          $("#star4").text("★");
+          $("#star5").text("☆");
+        });
+        $("#star5").click(function () {
+          $("#star1").text("★");
+          $("#star2").text("★");
+          $("#star3").text("★");
+          $("#star4").text("★");
+          $("#star5").text("★");
+        });
+
+        $("#submit").click(function () {
+          if ("★" == document.getElementById("star5").innerHTML) {
+            $("#star").val("5");
+          } else if ("★" == document.getElementById("star4").innerHTML) {
+            $("#star").val("4");
+          } else if ("★" == document.getElementById("star3").innerHTML) {
+            $("#star").val("3");
+          } else if ("★" == document.getElementById("star2").innerHTML) {
+            $("#star").val("2");
+          } else if ("★" == document.getElementById("star1").innerHTML) {
+            $("#star").val("1");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

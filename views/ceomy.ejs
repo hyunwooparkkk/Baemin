@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    사장님 mypage <br />
+    고마운분:<%=data[0].my_name%> 이메일:<%=data[0].my_mail%>
+    <hr />
+<p></p>
+<h2>내가 등록한 음식점</h2>
+<%for(let i=0;i<restaurant.length;i++){%>  
+<%=restaurant[i].kategorie%> 
+<%=restaurant[i].restaurant_name%>
+<%=restaurant[i].address%>
+<button><a href="/nav/foodres/<%=restaurant[i].restaurant_name%>">처음등록</a></button>
+ <button><a href="/nav/foodupdate/<%=restaurant[i].restaurant_name%>">메뉴추가수정</a></button>
+ <button><a href="/nav/foodmin/<%=restaurant[i].restaurant_name%>">배달시간최소가격조정</a></button>
+<hr>
+<%}%>
+
+   
+  </body>
+</html>
